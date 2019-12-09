@@ -1,0 +1,28 @@
+{
+    "builders": [
+        {
+            "ami_name": "Data Republic - {{user `server_role`}} tier {{ timestamp }}",
+            "instance_type": "t2.micro",
+            "region": "ap-southeast-2",
+            "source_ami": "ami-0119aa4d67e59007c",
+            "ssh_username": "ec2-user",
+            "type": "amazon-ebs",
+
+            "tags": {
+                "Name": "Data Republic - {{user `server_role`}} tier {{ timestamp }} {{isotime \"2006-01-02\"}}"
+                }
+        }
+    ],
+
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "sudo yum install httpd -y && sudo systemctl enable httpd && sudo systemctl start httpd && echo '{{user `server_role`}} server' | sudo tee /var/www/html/index.html"
+            ],
+            "pause_before": "30s",
+            "remote_folder": "~/"
+        }
+    ]
+
+}
