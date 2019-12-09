@@ -3,5 +3,5 @@ variable "db_instance_type" {
 }
 
 variable "vpc_id" {
-    default = "vpc-0f78a889b9bd4c537"
+  default = "vpc-021ea5d5d4b8e2e16"
 }
