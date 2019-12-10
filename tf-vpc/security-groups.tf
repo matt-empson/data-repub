@@ -17,3 +17,13 @@ resource "aws_security_group_rule" "bastion_ssh_in" {
 
   security_group_id = aws_security_group.bastion_allow_in.id
 }
+
+resource "aws_security_group_rule" "bastion_vpc_out" {
+  type        = "egress"
+  from_port   = 0
+  to_port     = 65535
+  protocol    = -1
+  cidr_blocks = [var.vpc_cidr]
+
+  security_group_id = aws_security_group.bastion_allow_in.id
+}
