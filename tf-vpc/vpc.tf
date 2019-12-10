@@ -18,7 +18,7 @@ resource "aws_internet_gateway" "igw" {
 
 // Create NAT Gateways
 resource "aws_eip" "ngw_eip" {
-  count = 0 # length(data.aws_availability_zones.azs.names)
+  count = length(data.aws_availability_zones.azs.names)
 
   vpc = true
 
@@ -28,7 +28,7 @@ resource "aws_eip" "ngw_eip" {
 }
 
 resource "aws_nat_gateway" "multi_az_ngw" {
-  count = 0 # length(data.aws_availability_zones.azs.names)
+  count = length(data.aws_availability_zones.azs.names)
 
   allocation_id = aws_eip.ngw_eip.*.id[count.index]
 
@@ -194,7 +194,7 @@ resource "aws_route" "public_igw" {
 }
 
 resource "aws_route" "web_tier_default" {
-  count = 0 #length(data.aws_availability_zones.azs.names)
+  count = length(data.aws_availability_zones.azs.names)
 
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.multi_az_ngw.*.id[count.index]
@@ -202,7 +202,7 @@ resource "aws_route" "web_tier_default" {
 }
 
 resource "aws_route" "mgmt_tier_default" {
-  count = 0 #length(data.aws_availability_zones.azs.names)
+  count = length(data.aws_availability_zones.azs.names)
 
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.multi_az_ngw.*.id[count.index]
